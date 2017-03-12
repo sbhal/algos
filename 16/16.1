@@ -1,0 +1,41 @@
+/******************************************************************************
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C/C++.
+Code, Compile, Run and Debug online from anywhere in world.
+*******************************************************************************/
+
+#include <iostream>
+#include <array>
+#include <stack>
+using namespace std;
+
+const size_t noOfTowers = 3;
+
+void computerTowerHanoiHelper(array<stack<int>, noOfTowers> &A, size_t noOfPegs, size_t src, size_t middle, size_t dest){
+    if(noOfPegs == 0)
+    return;
+    
+    computerTowerHanoiHelper(A, noOfPegs-1, src, dest, middle);
+    size_t value = A.at(src).top();
+    A.at(src).pop();
+    cout << "Moving a peg of value "<< value << " from tower "<<src<<" to tower "<< dest<<endl;
+    A.at(dest).push(value);
+    computerTowerHanoiHelper(A, noOfPegs-1, middle, src, dest);
+    return;
+}
+void computeTowerHanoi(size_t noOfPegs){
+    array<stack<int>, noOfTowers> A;
+    size_t src = 0;
+    stack<int> S1;
+    for(int i=noOfPegs; i!=0; i--){
+        A.at(src).push(i);
+    }
+    computerTowerHanoiHelper(A, noOfPegs, src, 1, 2);
+    return;
+}
+
+int main()
+{
+    computeTowerHanoi(3);
+    return 0;
+}
